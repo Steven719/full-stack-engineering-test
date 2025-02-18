@@ -1,39 +1,32 @@
-import { useEffect, useState } from "react";
-import apiClient from "../../api/apiClient";
+// import React from 'react';
 import { Link } from "react-router-dom";
+import { useCart } from "../../contexts/CartContext"; // Import the hook
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    apiClient
-      .get("/products")
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.error(err));
-  }, []);
+const ProductList = (props) => {
+  const { addToCart } = useCart(); // Get the addToCart function from context
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Products</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {products.map((product) => (
-          <div key={product.id} className="border p-4 rounded shadow">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="w-full h-48 object-cover mb-2"
-            />
-            <h2 className="text-xl font-bold">{product.title}</h2>
-            <p className="text-gray-600">${product.price}</p>
-            <Link
-              to={`/products/${product.id}`}
-              className="text-blue-500 hover:underline"
-            >
-              View Details
-            </Link>
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-3 gap-4">
+      {props.products.map((product) => (
+        <div key={product.id} className="border p-4">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="w-full h-48 object-cover"
+          />
+          <h3 className="text-xl font-bold mt-2">{product.title}</h3>
+          <p className="text-lg">${product.price}</p>
+          <Link to={`/product/${product.id}`} className="text-blue-500 mt-2">
+            View Details
+          </Link>
+          <button
+            className="bg-blue-500 text-white mt-2 p-2"
+            onClick={() => addToCart(product)} // Add item to cart
+          >
+            Add to Cart
+          </button>
+        </div>
+      ))}
     </div>
   );
 };

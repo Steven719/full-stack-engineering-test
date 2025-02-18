@@ -1,25 +1,18 @@
-// import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-blue-600 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-white text-xl font-bold">
-          E-Commerce PWA
+        <Link to="/" className="text-white text-2xl font-bold">
+          E-Shop
         </Link>
         <div>
-          <Link to="/products" className="text-gray-300 hover:text-white mx-2">
-            Shop
-          </Link>
-          <Link to="/cart" className="text-gray-300 hover:text-white mx-2">
+          <Link to="/cart" className="text-white mx-4">
             Cart
           </Link>
-          <Link
-            to="/merchant/dashboard"
-            className="text-gray-300 hover:text-white mx-2"
-          >
-            Merchant
+          <Link to="/merchant/dashboard" className="text-white">
+            Merchant Dashboard
           </Link>
         </div>
       </div>

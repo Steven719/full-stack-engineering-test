@@ -1,12 +1,22 @@
-// import React from "react";
+// import React from 'react';
+import { BrowserRouter as Router } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import AppRouter from "./router/AppRouter";
+import { useCart } from "./contexts/CartContext";
 
-function App() {
+const App = () => {
+  const { cart } = useCart();
   return (
-    <div className="App">
+    <Router>
+      <Navbar />
+      <div>
+        <p>Items in cart: {cart.length}</p>
+      </div>
       <AppRouter />
-    </div>
+      <Footer />
+    </Router>
   );
-}
+};
 
 export default App;
