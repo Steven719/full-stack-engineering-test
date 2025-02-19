@@ -1,25 +1,39 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-// Create the CartContext
+// Create a context for the cart
 const CartContext = createContext();
 
-// Custom hook to use CartContext
+// Custom hook to use the Cart context
 export const useCart = () => {
   return useContext(CartContext);
 };
 
-// CartProvider wraps the app to provide context to all components
-export const CartProvider = (props) => {
+// Cart provider component
+export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
+  // Add item to cart
   const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
   };
 
-  const removeFromCart = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  // Remove item from cart
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
+  // Clear all items in cart
   const clearCart = () => {
     setCart([]);
   };
@@ -28,8 +42,7 @@ export const CartProvider = (props) => {
     <CartContext.Provider
       value={{ cart, addToCart, removeFromCart, clearCart }}
     >
-      {props.children}{" "}
-      {/* This renders any components wrapped by CartProvider */}
+      {children}
     </CartContext.Provider>
   );
 };
